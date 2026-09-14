@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VivaMate | AI Viva</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #07111f;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
+            background-size: 45px 45px;
+            pointer-events: none;
+        }
+
+        .glow-one {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(34, 211, 238, 0.055);
+            filter: blur(100px);
+            right: -120px;
+            top: 10%;
+            pointer-events: none;
+        }
+
+        .glow-two {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(251, 146, 60, 0.04);
+            filter: blur(90px);
+            left: -100px;
+            bottom: 5%;
+            pointer-events: none;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 72px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: rgba(7,17,31,0.78);
+            backdrop-filter: blur(15px);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #22d3ee;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 11px;
+            letter-spacing: 0.7px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+
+        }
+
+        /* MAIN */
+
+        .main {
+            width: 86%;
+            max-width: 1250px;
+            margin: auto;
+            min-height: calc(100vh - 72px);
+            padding: 55px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HEADER */
+
+        .session-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 32px;
+            animation: slideDown 0.7s ease;
+        }
+
+        @keyframes slideDown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .eyebrow {
+            color: #22d3ee;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 4vw, 50px);
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        h1 span {
+            color: #fb923c;
+        }
+
+        .question-counter {
+            text-align: right;
+        }
+
+        .question-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #22d3ee;
+            line-height: 1;
+        }
+
+        .question-total {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 7px;
+            letter-spacing: 1px;
+        }
+
+        /* PROGRESS */
+
+        .progress-area {
+            margin-bottom: 32px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #64748b;
+            font-size: 11px;
+            margin-bottom: 9px;
+            letter-spacing: 0.7px;
+        }
+
+        .progress-track {
+            height: 5px;
+            width: 100%;
+            background: #102235;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: {{ ((number - 1) / total * 100) if total > 0 else 0 }}%;
+            background: linear-gradient(90deg, #22d3ee, #fb923c);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* CONTENT */
+
+        .content {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 25px;
+            align-items: stretch;
+        }
+
+        /* QUESTION CARD */
+
+        .question-card {
+            min-height: 520px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(10, 23, 40, 0.78);
+            border-radius: 20px;
+            padding: 38px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+            animation: cardIn 0.8s ease;
+        }
+
+        @keyframes cardIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .question-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #67e8f9;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 28px;
+        }
+
+        .question-label::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
+        }
+
+        .question-text {
+            font-size: clamp(25px, 3vw, 36px);
+            line-height: 1.25;
+            letter-spacing: -0.8px;
+            color: #f8fafc;
+            margin-bottom: 25px;
+        }
+
+        /* SPEAK QUESTION */
+
+        .speak-btn {
+            width: 100%;
+            height: 46px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(34,211,238,0.25);
+            border-radius: 10px;
+            background: rgba(34,211,238,0.07);
+            color: #67e8f9;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .speak-btn:hover {
+            background: rgba(34,211,238,0.14);
+            border-color: #22d3ee;
+            box-shadow: 0 8px 25px rgba(34,211,238,0.12);
+            transform: translateY(-1px);
+        }
+
+        .speak-btn.speaking {
+            color: #fb923c;
+            border-color: rgba(251,146,60,0.45);
+            background: rgba(251,146,60,0.08);
+        }
+
+        /* ANSWER */
+
+        .answer-label {
+            display: block;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 155px;
+            resize: vertical;
+            padding: 16px;
+            border: 1px solid #1e3349;
+            border-radius: 12px;
+            background: #081625;
+            color: #ffffff;
+            outline: none;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            transition: 0.25s;
+        }
+
+        textarea::placeholder {
+            color: #526477;
+        }
+
+        textarea:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 0 3px rgba(34,211,238,0.08);
+        }
+
+        /* VOICE SECTION */
+
+        .voice-section {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid rgba(34,211,238,0.12);
+            border-radius: 13px;
+            background: rgba(8, 22, 37, 0.7);
+        }
+
+        .voice-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .voice-title {
+            color: #cbd5e1;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .voice-status {
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+        }
+
+        .voice-status.listening {
+            color: #22d3ee;
+            animation: listeningBlink 1s infinite;
+        }
+
+        @keyframes listeningBlink {
+
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .voice-btn {
+            flex: 1;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid rgba(34,211,238,0.25);
+            background: rgba(34,211,238,0.08);
+            color: #67e8f9;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .voice-btn:hover {
+            background: rgba(34,211,238,0.16);
+            border-color: #22d3ee;
+            transform: translateY(-1px);
+        }
+
+        .voice-btn.recording {
+            background: rgba(251,146,60,0.12);
+            border-color: rgba(251,146,60,0.55);
+            color: #fb923c;
+        }
+
+        .clear-btn {
+            width: 95px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid #26384c;
+            background: #0a1929;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .clear-btn:hover {
+            color: #ffffff;
+            border-color: #64748b;
+        }
+
+        .voice-hint {
+            margin-top: 10px;
+            color: #526477;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* SUBMIT */
+
+        .submit-btn {
+            width: 100%;
+            height: 52px;
+            margin-top: 14px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(90deg, #22d3ee, #0ea5e9);
+            color: #04101c;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.7px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 100%;
+            background: rgba(255,255,255,0.3);
+            transform: skewX(-25deg) translateX(-150px);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            transform: skewX(-25deg) translateX(500px);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(34,211,238,0.25);
+        }
+
+        /* EXAMINER PANEL */
+
+        .examiner-panel {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(8, 20, 35, 0.75);
+            border-radius: 20px;
+            min-height: 520px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .examiner-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .examiner-title strong {
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .ready {
+            color: #22d3ee;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* AI CORE */
+
+        .core-area {
+            height: 310px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .core {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 30%, #67e8f9 0%, #0891b2 28%, #075985 52%, #041522 76%);
+            box-shadow:
+                0 0 35px rgba(34,211,238,0.65),
+                0 0 90px rgba(34,211,238,0.2),
+                inset 0 0 25px rgba(255,255,255,0.12);
+            position: relative;
+            z-index: 3;
+            animation: corePulse 2.4s ease-in-out infinite;
+        }
+
+        .core::before {
+            content: "";
+            position: absolute;
+            inset: 13px;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 50%;
+        }
+
+        .core::after {
+            content: "AI";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 18px #22d3ee;
+        }
+
+        @keyframes corePulse {
+
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+        }
+
+        .orbit {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(34,211,238,0.22);
+        }
+
+        .orbit-one {
+            width: 180px;
+            height: 180px;
+            animation: orbitRotate 9s linear infinite;
+        }
+
+        .orbit-two {
+            width: 245px;
+            height: 245px;
+            border-color: rgba(251,146,60,0.18);
+            animation: orbitRotateReverse 13s linear infinite;
+        }
+
+        .orbit-three {
+            width: 300px;
+            height: 300px;
+            border-style: dashed;
+            border-color: rgba(34,211,238,0.12);
+            animation: orbitRotate 18s linear infinite;
+        }
+
+        @keyframes orbitRotate {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        @keyframes orbitRotateReverse {
+
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+
+        }
+
+        .orbit::before {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
+            top: 50%;
+            left: -3px;
+        }
+
+        .orbit-two::before {
+            background: #fb923c;
+            box-shadow: 0 0 12px #fb923c;
+            left: auto;
+            right: -3px;
+        }
+
+        /* EXAMINER MESSAGE */
+
+        .examiner-message {
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding-top: 20px;
+        }
+
+        .message-title {
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .message-text {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .signal {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .signal span {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #22d3ee;
+            animation: signal 1.2s infinite;
+        }
+
+        .signal span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .signal span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes signal {
+
+            0%, 100% {
+                opacity: 0.25;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
+
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .examiner-panel {
+                min-height: 420px;
+            }
+
+            .core-area {
+                height: 250px;
+            }
+
+            .session-header {
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-status {
+                display: none;
+            }
+
+            .main {
+                width: 90%;
+                padding: 35px 0;
+            }
+
+            .session-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .question-counter {
+                text-align: left;
+            }
+
+            .question-card {
+                padding: 25px;
+                min-height: auto;
+            }
+
+            .examiner-panel {
+                min-height: 400px;
+            }
+
+            .orbit-three {
+                width: 250px;
+                height: 250px;
+            }
+
+            .orbit-two {
+                width: 205px;
+                height: 205px;
+            }
+
+            .orbit-one {
+                width: 150px;
+                height: 150px;
+            }
+
+            .voice-controls {
+                flex-direction: column;
+            }
+
+            .clear-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="glow-one"></div>
+    <div class="glow-two"></div>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Viva<span>Mate</span>
+        </div>
+
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            AI EXAMINER ACTIVE
+        </div>
+
+    </nav>
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <div class="session-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    Live Viva Session
+                </div>
+
+                <h1>
+                    Face the <span>Question.</span>
+                </h1>
+
+            </div>
+
+            <div class="question-counter">
+
+                <div class="question-number">
+                    {{ "%02d"|format(number) }}
+                </div>
+
+                <div class="question-total">
+                    OF {{ "%02d"|format(total) }} QUESTIONS
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div class="progress-area">
+
+            <div class="progress-info">
+
+                <span>
+                    SESSION PROGRESS
+                </span>
+
+                <span>
+                    {{ number }} / {{ total }}
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div class="progress-fill"></div>
+
+            </div>
+
+        </div>
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <!-- QUESTION CARD -->
+
+            <section class="question-card">
+
+                <div class="question-label">
+                    AI EXAMINER QUESTION
+                </div>
+
+                <div class="question-text">
+                    {{ question["question"] }}
+                </div>
+
+                <!-- HEAR QUESTION -->
+
+                <button
+                    type="button"
+                    class="speak-btn"
+                    id="speakBtn"
+                >
+                    🔊 HEAR QUESTION
+                </button>
+
+                <!-- ANSWER FORM -->
+
+                <form method="POST" id="answerForm">
+
+                    <label
+                        for="answer"
+                        class="answer-label"
+                    >
+                        YOUR ANSWER
+                    </label>
+
+                    <textarea
+                        id="answer"
+                        name="answer"
+                        placeholder="Type your answer or use voice input..."
+                        required
+                    ></textarea>
+
+                    <!-- VOICE ANSWER -->
+
+                    <div class="voice-section">
+
+                        <div class="voice-top">
+
+                            <div class="voice-title">
+                                🎤 VOICE ANSWER
+                            </div>
+
+                            <div
+                                class="voice-status"
+                                id="voiceStatus"
+                            >
+                                READY TO LISTEN
+                            </div>
+
+                        </div>
+
+                        <div class="voice-controls">
+
+                            <button
+                                type="button"
+                                class="voice-btn"
+                                id="voiceBtn"
+                            >
+                                🎤 START VOICE ANSWER
+                            </button>
+
+                            <button
+                                type="button"
+                                class="clear-btn"
+                                id="clearBtn"
+                            >
+                                CLEAR
+                            </button>
+
+                        </div>
+
+                        <div
+                            class="voice-hint"
+                            id="voiceHint"
+                        >
+                            Click the microphone and speak your answer.
+                            Your speech will automatically appear in the answer box.
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        SUBMIT ANSWER →
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- AI EXAMINER -->
+
+            <aside class="examiner-panel">
+
+                <div class="examiner-title">
+
+                    <strong>
+                        AI EXAMINER
+                    </strong>
+
+                    <span
+                        class="ready"
+                        id="examinerStatus"
+                    >
+                        ● READY
+                    </span>
+
+                </div>
+
+                <div class="core-area">
+
+                    <div class="orbit orbit-three"></div>
+
+                    <div class="orbit orbit-two"></div>
+
+                    <div class="orbit orbit-one"></div>
+
+                    <div class="core"></div>
+
+                </div>
+
+                <div class="examiner-message">
+
+                    <div
+                        class="message-title"
+                        id="messageTitle"
+                    >
+                        Examiner is listening
+                    </div>
+
+                    <div
+                        class="message-text"
+                        id="messageText"
+                    >
+                        Click "Hear Question" whenever you want
+                        the AI examiner to read the question aloud.
+                    </div>
+
+                    <div class="signal">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        /* =========================================
+           QUESTION TEXT TO SPEECH
+           ========================================= */
+
+        const speakBtn =
+            document.getElementById("speakBtn");
+
+        const questionText =
+            {{ question["question"]|tojson }};
+
+        const examinerStatus =
+            document.getElementById("examinerStatus");
+
+        const messageTitle =
+            document.getElementById("messageTitle");
+
+        const messageText =
+            document.getElementById("messageText");
+
+
+        speakBtn.addEventListener("click", function() {
+
+            if (!("speechSynthesis" in window)) {
+
+                speakBtn.innerHTML =
+                    "🔊 VOICE NOT SUPPORTED";
+
+                return;
+            }
+
+
+            if (window.speechSynthesis.speaking) {
+
+                window.speechSynthesis.cancel();
+
+                speakBtn.classList.remove("speaking");
+
+                speakBtn.innerHTML =
+                    "🔊 HEAR QUESTION";
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                messageTitle.innerText =
+                    "Examiner is listening";
+
+                messageText.innerText =
+                    "Click Hear Question whenever you want the AI examiner to read the question.";
+
+                return;
+            }
+
+
+            const speech =
+                new SpeechSynthesisUtterance(questionText);
+
+
+            speech.lang = "en-US";
+
+            speech.rate = 0.9;
+
+            speech.pitch = 1;
+
+            speech.volume = 1;
+
+
+            speech.onstart = function() {
+
+                speakBtn.classList.add("speaking");
+
+                speakBtn.innerHTML =
+                    "⏹ STOP SPEAKING";
+
+                examinerStatus.innerText =
+                    "● SPEAKING";
+
+                examinerStatus.style.color =
+                    "#fb923c";
+
+                messageTitle.innerText =
+                    "Examiner is speaking";
+
+                messageText.innerText =
+                    "Listen carefully to the question before giving your answer.";
+
+            };
+
+
+            speech.onend = function() {
+
+                speakBtn.classList.remove("speaking");
+
+                speakBtn.innerHTML =
+                    "🔊 HEAR QUESTION";
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+                messageTitle.innerText =
+                    "Examiner is listening";
+
+                messageText.innerText =
+                    "Take your time. Explain your reasoning and answer confidently.";
+
+            };
+
+
+            speech.onerror = function() {
+
+                speakBtn.classList.remove("speaking");
+
+                speakBtn.innerHTML =
+                    "🔊 HEAR QUESTION";
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+            };
+
+
+            window.speechSynthesis.speak(speech);
+
+        });
+
+
+        /* =========================================
+           VOICE TO TEXT
+           ========================================= */
+
+        const voiceBtn =
+            document.getElementById("voiceBtn");
+
+        const clearBtn =
+            document.getElementById("clearBtn");
+
+        const answerBox =
+            document.getElementById("answer");
+
+        const voiceStatus =
+            document.getElementById("voiceStatus");
+
+        const voiceHint =
+            document.getElementById("voiceHint");
+
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+
+        let recognition = null;
+
+        let listening = false;
+
+        let startingText = "";
+
+        let finalTranscript = "";
+
+
+        if (!SpeechRecognition) {
+
+            voiceBtn.disabled = true;
+
+            voiceBtn.innerHTML =
+                "🎤 VOICE NOT SUPPORTED";
+
+            voiceBtn.style.opacity =
+                "0.45";
+
+            voiceBtn.style.cursor =
+                "not-allowed";
+
+            voiceStatus.innerText =
+                "NOT SUPPORTED";
+
+            voiceHint.innerText =
+                "Voice input is not supported in this browser. Please use Google Chrome or Microsoft Edge.";
+
+        } else {
+
+            recognition =
+                new SpeechRecognition();
+
+
+            recognition.continuous = true;
+
+            recognition.interimResults = true;
+
+            recognition.lang = "en-US";
+
+
+            recognition.onstart = function() {
+
+                listening = true;
+
+                voiceBtn.classList.add("recording");
+
+                voiceBtn.innerHTML =
+                    "⏹ STOP LISTENING";
+
+                voiceStatus.innerText =
+                    "● LISTENING...";
+
+                voiceStatus.classList.add(
+                    "listening"
+                );
+
+
+                examinerStatus.innerText =
+                    "● LISTENING";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+
+                messageTitle.innerText =
+                    "Voice input active";
+
+
+                messageText.innerText =
+                    "Speak naturally. VivaMate is converting your speech into text.";
+
+
+                voiceHint.innerText =
+                    "Speak clearly. Your words will appear in the answer box.";
+
+            };
+
+
+            recognition.onresult = function(event) {
+
+                let interimTranscript = "";
+
+
+                for (
+                    let i = event.resultIndex;
+                    i < event.results.length;
+                    i++
+                ) {
+
+                    const transcript =
+                        event.results[i][0].transcript;
+
+
+                    if (
+                        event.results[i].isFinal
+                    ) {
+
+                        finalTranscript +=
+                            transcript + " ";
+
+                    } else {
+
+                        interimTranscript +=
+                            transcript;
+
+                    }
+
+                }
+
+
+                answerBox.value =
+                    (
+                        startingText +
+                        " " +
+                        finalTranscript +
+                        interimTranscript
+                    ).trim();
+
+            };
+
+
+            recognition.onerror = function(event) {
+
+                console.log(
+                    "Speech recognition error:",
+                    event.error
+                );
+
+
+                if (
+                    event.error === "not-allowed"
+                ) {
+
+                    voiceStatus.innerText =
+                        "MICROPHONE BLOCKED";
+
+                    voiceHint.innerText =
+                        "Microphone permission was blocked. Allow microphone access in your browser and try again.";
+
+                } else if (
+                    event.error === "no-speech"
+                ) {
+
+                    voiceStatus.innerText =
+                        "NO SPEECH DETECTED";
+
+                    voiceHint.innerText =
+                        "No speech was detected. Click the microphone and try again.";
+
+                } else {
+
+                    voiceStatus.innerText =
+                        "VOICE ERROR";
+
+                    voiceHint.innerText =
+                        "Something went wrong with voice recognition. Please try again.";
+
+                }
+
+
+                listening = false;
+
+                voiceBtn.classList.remove(
+                    "recording"
+                );
+
+                voiceBtn.innerHTML =
+                    "🎤 START VOICE ANSWER";
+
+                voiceStatus.classList.remove(
+                    "listening"
+                );
+
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+            };
+
+
+            recognition.onend = function() {
+
+                listening = false;
+
+                voiceBtn.classList.remove(
+                    "recording"
+                );
+
+                voiceBtn.innerHTML =
+                    "🎤 START VOICE ANSWER";
+
+                voiceStatus.classList.remove(
+                    "listening"
+                );
+
+
+                if (
+                    voiceStatus.innerText ===
+                    "● LISTENING..."
+                ) {
+
+                    voiceStatus.innerText =
+                        "VOICE CAPTURED";
+
+                }
+
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+
+                messageTitle.innerText =
+                    "Answer captured";
+
+
+                messageText.innerText =
+                    "Review your answer and submit it when you are ready.";
+
+
+                voiceHint.innerText =
+                    "You can edit the transcribed answer before submitting.";
+
+            };
+
+
+            voiceBtn.addEventListener(
+                "click",
+                function() {
+
+
+                    if (!listening) {
+
+                        startingText =
+                            answerBox.value.trim();
+
+                        finalTranscript = "";
+
+
+                        try {
+
+                            recognition.start();
+
+                        } catch (error) {
+
+                            console.log(error);
+
+                        }
+
+                    } else {
+
+                        recognition.stop();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           CLEAR ANSWER
+           ========================================= */
+
+        clearBtn.addEventListener(
+            "click",
+            function() {
+
+                if (listening && recognition) {
+
+                    recognition.stop();
+
+                }
+
+
+                answerBox.value = "";
+
+                startingText = "";
+
+                finalTranscript = "";
+
+
+                voiceStatus.innerText =
+                    "READY TO LISTEN";
+
+                voiceStatus.classList.remove(
+                    "listening"
+                );
+
+
+                voiceHint.innerText =
+                    "Click the microphone and speak your answer.";
+
+
+                examinerStatus.innerText =
+                    "● READY";
+
+                examinerStatus.style.color =
+                    "#22d3ee";
+
+
+                messageTitle.innerText =
+                    "Examiner is listening";
+
+
+                messageText.innerText =
+                    "Click Hear Question whenever you want the AI examiner to read the question.";
+
+            }
+        );
+
+
+        /* =========================================
+           STOP SPEECH WHEN LEAVING PAGE
+           ========================================= */
+
+        window.addEventListener(
+            "beforeunload",
+            function() {
+
+                if (
+                    "speechSynthesis" in window
+                ) {
+
+                    window.speechSynthesis.cancel();
+
+                }
+
+                if (
+                    recognition &&
+                    listening
+                ) {
+
+                    recognition.stop();
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

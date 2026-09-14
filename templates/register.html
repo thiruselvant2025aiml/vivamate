@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VivaMate | Create Account</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #07111f;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Background grid */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(rgba(34,211,238,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34,211,238,0.05) 1px, transparent 1px);
+
+            background-size: 45px 45px;
+
+            z-index: -2;
+        }
+
+        /* Glow */
+
+        body::after {
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            background: #06b6d4;
+
+            filter: blur(180px);
+
+            opacity: 0.12;
+
+            left: -150px;
+            bottom: -150px;
+
+            z-index: -1;
+        }
+
+        .wrapper {
+            width: 1100px;
+            min-height: 650px;
+
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+
+            background: #0b1728;
+
+            border: 1px solid #1e344d;
+
+            box-shadow:
+                0 30px 100px rgba(0,0,0,0.5);
+
+            position: relative;
+        }
+
+        /* LEFT SIDE */
+
+        .left {
+            padding: 65px;
+
+            border-right: 1px solid #1e344d;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: #22d3ee;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+
+            background: #22c55e;
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px #22c55e;
+        }
+
+        .main-title {
+            margin-top: 80px;
+        }
+
+        .eyebrow {
+            color: #22d3ee;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 58px;
+
+            line-height: 1;
+
+            max-width: 520px;
+
+            letter-spacing: -2px;
+        }
+
+        h1 span {
+            color: #fb923c;
+        }
+
+        .description {
+            margin-top: 25px;
+
+            color: #94a3b8;
+
+            max-width: 470px;
+
+            line-height: 1.7;
+
+            font-size: 16px;
+        }
+
+        /* FEATURES */
+
+        .features {
+            display: flex;
+
+            gap: 35px;
+
+            margin-top: 50px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+        }
+
+        .feature-number {
+            color: #22d3ee;
+
+            font-weight: bold;
+        }
+
+        /* RIGHT SIDE */
+
+        .right {
+            padding: 65px 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 35px;
+        }
+
+        .form-header small {
+            color: #64748b;
+
+            letter-spacing: 2px;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+        }
+
+        .form-header h2 {
+            font-size: 32px;
+
+            margin-top: 10px;
+        }
+
+        .form-header p {
+            color: #64748b;
+
+            margin-top: 8px;
+
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 12px;
+
+            color: #94a3b8;
+
+            margin-bottom: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 15px;
+
+            background: #07111f;
+
+            border: 1px solid #233b55;
+
+            color: white;
+
+            outline: none;
+
+            margin-bottom: 22px;
+
+            font-size: 14px;
+
+            transition: 0.25s;
+        }
+
+        input:focus {
+            border-color: #22d3ee;
+
+            box-shadow: 0 0 0 2px rgba(34,211,238,0.08);
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 16px;
+
+            background: #fb923c;
+
+            border: none;
+
+            color: #07111f;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        button:hover {
+            background: #fdba74;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 30px rgba(251,146,60,0.2);
+        }
+
+        .login {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .login a {
+            color: #22d3ee;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .login a:hover {
+            text-decoration: underline;
+        }
+
+        .back {
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #475569;
+
+            text-decoration: none;
+
+            font-size: 12px;
+        }
+
+        .back:hover {
+            color: #94a3b8;
+        }
+
+        /* Decorative line */
+
+        .line {
+            width: 70px;
+            height: 3px;
+
+            background: #22d3ee;
+
+            margin-top: 25px;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 850px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .wrapper {
+                width: 92%;
+
+                grid-template-columns: 1fr;
+
+                margin: 30px 0;
+            }
+
+            .left {
+                padding: 40px;
+
+                border-right: none;
+
+                border-bottom: 1px solid #1e344d;
+            }
+
+            .right {
+                padding: 40px;
+            }
+
+            .main-title {
+                margin-top: 50px;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .features {
+                flex-direction: column;
+
+                gap: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="wrapper">
+
+
+        <!-- LEFT -->
+
+        <section class="left">
+
+            <div>
+
+                <div class="brand">
+                    🎓 Viva<span>Mate</span>
+                </div>
+
+                <div class="status">
+                    <div class="status-dot"></div>
+                    AI SYSTEM ONLINE
+                </div>
+
+            </div>
+
+
+            <div class="main-title">
+
+                <div class="eyebrow">
+                    VIVA PREPARATION / 01
+                </div>
+
+                <h1>
+                    Speak with
+                    <span>confidence.</span>
+                </h1>
+
+                <div class="line"></div>
+
+                <p class="description">
+                    Practice your technical viva with an AI examiner,
+                    improve your answers and discover exactly where
+                    you need to improve.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        <span class="feature-number">01</span>
+                        AI Questions
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-number">02</span>
+                        Smart Evaluation
+                    </div>
+
+                    <div class="feature">
+                        <span class="feature-number">03</span>
+                        Performance
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT -->
+
+        <section class="right">
+
+            <div class="form-header">
+
+                <small>New Candidate</small>
+
+                <h2>Create your account</h2>
+
+                <p>
+                    Enter your details to begin your first viva session.
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                >
+
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Create password"
+                    required
+                >
+
+
+                <button type="submit">
+                    CREATE ACCOUNT →
+                </button>
+
+            </form>
+
+
+            <div class="login">
+
+                Already registered?
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+            </div>
+
+
+            <a href="{{ url_for('index') }}" class="back">
+                ← Return to VivaMate
+            </a>
+
+        </section>
+
+
+    </div>
+
+
+</body>
+
+</html>

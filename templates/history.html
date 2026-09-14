@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VivaMate — History</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #f8fafc;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(34, 211, 238, 0.08),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(251, 146, 60, 0.04),
+                    transparent 25%
+                ),
+                #050d19;
+
+            overflow-x: hidden;
+        }
+
+
+        /* BACKGROUND GRID */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 0.3;
+
+            background-image:
+                linear-gradient(
+                    rgba(34, 211, 238, 0.04) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(34, 211, 238, 0.04) 1px,
+                    transparent 1px
+                );
+
+            background-size: 36px 36px;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+
+            height: 64px;
+
+            padding: 0 5.5%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            background:
+                rgba(5, 13, 25, 0.88);
+
+            backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.06);
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #22d3ee;
+
+            font-size: 22px;
+
+            font-weight: 850;
+
+            letter-spacing: -0.7px;
+        }
+
+
+        .logo-icon {
+
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(34, 211, 238, 0.07);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.15);
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .nav-link {
+
+            text-decoration: none;
+
+            color: #9aafc2;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            letter-spacing: 0.5px;
+
+            padding: 9px 15px;
+
+            border-radius: 8px;
+
+            transition: 0.25s;
+        }
+
+
+        .nav-link:hover {
+
+            color: #22d3ee;
+
+            background:
+                rgba(34, 211, 238, 0.05);
+        }
+
+
+        .dashboard-link {
+
+            color: #22d3ee;
+
+            border:
+                1px solid rgba(34, 211, 238, 0.2);
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            width: 88%;
+
+            max-width: 1190px;
+
+            margin: auto;
+
+            padding:
+                48px 0 80px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* HEADER */
+
+        .page-header {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            margin-bottom: 30px;
+
+            animation:
+                fadeUp 0.5s ease both;
+        }
+
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 17px;
+        }
+
+
+        .history-icon {
+
+            width: 65px;
+            height: 65px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            font-size: 27px;
+
+            background:
+                rgba(34, 211, 238, 0.06);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.25);
+
+            box-shadow:
+                0 0 30px rgba(34, 211, 238, 0.08);
+        }
+
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size:
+                clamp(30px, 4vw, 40px);
+
+            letter-spacing: -1.3px;
+        }
+
+
+        .page-header h1 span {
+
+            color: #22d3ee;
+        }
+
+
+        .page-header p {
+
+            margin: 8px 0 0;
+
+            color: #7189a0;
+
+            font-size: 13px;
+        }
+
+
+        .session-count {
+
+            padding: 9px 14px;
+
+            border-radius: 20px;
+
+            color: #22d3ee;
+
+            background:
+                rgba(34, 211, 238, 0.05);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.16);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+        }
+
+
+        /* SUMMARY */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 17px;
+
+            margin-bottom: 30px;
+
+            animation:
+                fadeUp 0.55s ease both;
+
+            animation-delay: 0.08s;
+        }
+
+
+        .summary-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 22px;
+
+            min-height: 105px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(8, 24, 40, 0.86);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            transition: 0.25s;
+        }
+
+
+        .summary-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                rgba(34, 211, 238, 0.22);
+        }
+
+
+        .summary-label {
+
+            color: #6f879d;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.1px;
+        }
+
+
+        .summary-value {
+
+            margin-top: 9px;
+
+            color: #22d3ee;
+
+            font-size: 27px;
+
+            font-weight: 850;
+        }
+
+
+        .summary-icon {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 25px;
+
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(34, 211, 238, 0.055);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.12);
+
+            font-size: 18px;
+        }
+
+
+        /* HISTORY TITLE */
+
+        .history-title {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+
+            animation:
+                fadeUp 0.6s ease both;
+
+            animation-delay: 0.12s;
+        }
+
+
+        .history-title h2 {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            letter-spacing: -0.4px;
+        }
+
+
+        .history-title span {
+
+            color: #5f768d;
+
+            font-size: 10px;
+
+            letter-spacing: 0.6px;
+        }
+
+
+        /* SESSION LIST */
+
+        .session-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+            animation:
+                fadeUp 0.65s ease both;
+
+            animation-delay: 0.16s;
+        }
+
+
+        .session-card {
+
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                70px
+                1fr
+                150px
+                120px;
+
+            align-items: center;
+
+            gap: 20px;
+
+            min-height: 108px;
+
+            padding: 19px 23px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(8, 24, 40, 0.88);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            transition:
+                transform 0.25s,
+                border-color 0.25s,
+                box-shadow 0.25s;
+        }
+
+
+        .session-card:hover {
+
+            transform:
+                translateX(4px);
+
+            border-color:
+                rgba(34, 211, 238, 0.3);
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.18);
+        }
+
+
+        /* SESSION NUMBER */
+
+        .session-number {
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+                rgba(34, 211, 238, 0.055);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.15);
+
+            color: #22d3ee;
+
+            font-size: 18px;
+
+            font-weight: 850;
+        }
+
+
+        .session-number small {
+
+            margin-top: 2px;
+
+            color: #587187;
+
+            font-size: 7px;
+
+            letter-spacing: 0.7px;
+        }
+
+
+        /* SESSION DETAILS */
+
+        .session-main {
+
+            min-width: 0;
+        }
+
+
+        .session-subject {
+
+            color: #f1f5f9;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin-bottom: 6px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .session-topic {
+
+            color: #7189a0;
+
+            font-size: 11px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .session-topic strong {
+
+            color: #22d3ee;
+
+            font-weight: 700;
+        }
+
+
+        /* DIFFICULTY */
+
+        .difficulty-box {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .difficulty-label {
+
+            color: #536b81;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.9px;
+        }
+
+
+        .difficulty {
+
+            width: fit-content;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.4px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.07);
+
+            color: #b4c4d2;
+        }
+
+
+        /* SCORE */
+
+        .score-box {
+
+            text-align: right;
+        }
+
+
+        .score-label {
+
+            color: #536b81;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.8px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .score {
+
+            color: #22d3ee;
+
+            font-size: 23px;
+
+            font-weight: 850;
+        }
+
+
+        .score.good {
+
+            color: #22d3ee;
+        }
+
+
+        .score.medium {
+
+            color: #fbbf24;
+        }
+
+
+        .score.low {
+
+            color: #fb923c;
+        }
+
+
+        /* DATE */
+
+        .session-date {
+
+            margin-top: 5px;
+
+            color: #526a80;
+
+            font-size: 9px;
+        }
+
+
+        /* EMPTY STATE */
+
+        .empty-state {
+
+            padding: 80px 30px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            background:
+                rgba(8, 24, 40, 0.82);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.12);
+
+            animation:
+                fadeUp 0.5s ease both;
+        }
+
+
+        .empty-icon {
+
+            width: 75px;
+            height: 75px;
+
+            margin:
+                0 auto 18px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            font-size: 31px;
+
+            background:
+                rgba(34, 211, 238, 0.05);
+
+            border:
+                1px solid rgba(34, 211, 238, 0.14);
+        }
+
+
+        .empty-state h2 {
+
+            margin: 0 0 9px;
+
+            font-size: 21px;
+        }
+
+
+        .empty-state p {
+
+            margin: 0 auto;
+
+            max-width: 450px;
+
+            color: #647c92;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        .start-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 22px;
+
+            padding: 12px 18px;
+
+            border-radius: 9px;
+
+            background: #22d3ee;
+
+            color: #04131e;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 850;
+
+            transition: 0.25s;
+        }
+
+
+        .start-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(34, 211, 238, 0.2);
+        }
+
+
+        /* FOOTER */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 45px;
+
+            color: #33495e;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* ANIMATION */
+
+        @keyframes fadeUp {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(14px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+
+            .session-card {
+
+                grid-template-columns:
+                    60px
+                    1fr
+                    120px;
+
+            }
+
+
+            .difficulty-box {
+
+                display: none;
+            }
+
+
+            .score-box {
+
+                text-align: right;
+            }
+
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+
+                padding: 0 4%;
+            }
+
+
+            .container {
+
+                width: 94%;
+
+                padding-top: 35px;
+            }
+
+
+            .logo {
+
+                font-size: 19px;
+            }
+
+
+            .nav-link {
+
+                padding:
+                    8px 9px;
+
+                font-size: 9px;
+            }
+
+
+            .page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .session-count {
+
+                align-self: flex-start;
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .session-card {
+
+                grid-template-columns:
+                    52px
+                    1fr;
+
+                gap: 14px;
+
+                padding: 17px;
+            }
+
+
+            .score-box {
+
+                grid-column: 2;
+
+                text-align: left;
+
+                display: flex;
+
+                align-items: center;
+
+                gap: 10px;
+            }
+
+
+            .score-label {
+
+                margin: 0;
+            }
+
+
+            .session-main {
+
+                overflow: hidden;
+            }
+
+
+            .history-title span {
+
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            VivaMate
+
+        </div>
+
+
+        <div class="nav-links">
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link dashboard-link"
+            >
+                DASHBOARD
+            </a>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="nav-link"
+            >
+                LOGOUT
+            </a>
+
+
+        </div>
+
+    </nav>
+
+
+
+    <main class="container">
+
+
+        <!-- HEADER -->
+
+        <section class="page-header">
+
+
+            <div class="header-left">
+
+
+                <div class="history-icon">
+                    🕘
+                </div>
+
+
+                <div>
+
+                    <h1>
+                        Viva <span>History</span>
+                    </h1>
+
+
+                    <p>
+                        Review your previous practice sessions and scores.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="session-count">
+
+                {{ sessions|length }} SESSION{% if sessions|length != 1 %}S{% endif %}
+
+            </div>
+
+
+        </section>
+
+
+
+        {% if sessions %}
+
+
+            <!-- SUMMARY -->
+
+            <section class="summary-grid">
+
+
+                <div class="summary-card">
+
+
+                    <div class="summary-label">
+                        TOTAL VIVAS
+                    </div>
+
+
+                    <div class="summary-value">
+                        {{ sessions|length }}
+                    </div>
+
+
+                    <div class="summary-icon">
+                        📚
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+
+                    <div class="summary-label">
+                        LATEST SCORE
+                    </div>
+
+
+                    <div class="summary-value">
+
+                        {% if sessions[0].score is not none %}
+                            {{ "%.1f"|format(sessions[0].score) }}%
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="summary-icon">
+                        ⚡
+                    </div>
+
+                </div>
+
+
+
+                <div class="summary-card">
+
+
+                    <div class="summary-label">
+                        BEST SCORE
+                    </div>
+
+
+                    <div class="summary-value">
+
+                        {% set best = namespace(value=0) %}
+
+                        {% for item in sessions %}
+
+                            {% if item.score is not none and item.score > best.value %}
+
+                                {% set best.value = item.score %}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                        {{ "%.1f"|format(best.value) }}%
+
+                    </div>
+
+
+                    <div class="summary-icon">
+                        🏆
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- HISTORY TITLE -->
+
+            <div class="history-title">
+
+
+                <h2>
+                    Previous Sessions
+                </h2>
+
+
+                <span>
+                    MOST RECENT FIRST
+                </span>
+
+
+            </div>
+
+
+
+            <!-- SESSION LIST -->
+
+            <section class="session-list">
+
+
+                {% for item in sessions %}
+
+
+                    <div class="session-card">
+
+
+                        <!-- NUMBER -->
+
+                        <div class="session-number">
+
+                            {{ loop.index }}
+
+                            <small>
+                                VIVA
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- DETAILS -->
+
+                        <div class="session-main">
+
+
+                            <div class="session-subject">
+
+                                {{ item.subject }}
+
+                            </div>
+
+
+                            <div class="session-topic">
+
+                                Topic:
+                                <strong>
+                                    {{ item.topic }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- DIFFICULTY -->
+
+                        <div class="difficulty-box">
+
+
+                            <div class="difficulty-label">
+                                DIFFICULTY
+                            </div>
+
+
+                            <div class="difficulty">
+
+                                {{ item.difficulty|upper }}
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- SCORE -->
+
+                        <div class="score-box">
+
+
+                            <div class="score-label">
+                                SCORE
+                            </div>
+
+
+                            {% if item.score is not none %}
+
+
+                                {% if item.score >= 75 %}
+
+                                    <div class="score good">
+
+                                        {{ "%.1f"|format(item.score) }}%
+
+                                    </div>
+
+
+                                {% elif item.score >= 50 %}
+
+                                    <div class="score medium">
+
+                                        {{ "%.1f"|format(item.score) }}%
+
+                                    </div>
+
+
+                                {% else %}
+
+                                    <div class="score low">
+
+                                        {{ "%.1f"|format(item.score) }}%
+
+                                    </div>
+
+                                {% endif %}
+
+
+                            {% else %}
+
+                                <div class="score">
+                                    —
+                                </div>
+
+                            {% endif %}
+
+
+                            <div class="session-date">
+
+                                {{ item.created_at }}
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </section>
+
+
+        {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <section class="empty-state">
+
+
+                <div class="empty-icon">
+                    📚
+                </div>
+
+
+                <h2>
+                    No Viva History Yet
+                </h2>
+
+
+                <p>
+
+                    You haven't completed any viva sessions yet.
+                    Start your first practice session and your
+                    performance history will appear here.
+
+                </p>
+
+
+                <a
+                    href="{{ url_for('setup') }}"
+                    class="start-button"
+                >
+
+                    START YOUR FIRST VIVA
+                    →
+
+                </a>
+
+
+            </section>
+
+
+        {% endif %}
+
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            VIVAMATE • AI VIVA PRACTICE ASSISTANT
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

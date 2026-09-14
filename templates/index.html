@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VivaMate | AI Viva Practice Assistant</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: #f8fafc;
+    overflow-x: hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        linear-gradient(rgba(34,211,238,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,0.045) 1px, transparent 1px);
+
+    background-size: 42px 42px;
+
+    pointer-events: none;
+    z-index: -5;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at 20% 15%, rgba(34,211,238,0.08), transparent 30%),
+        radial-gradient(circle at 85% 75%, rgba(251,146,60,0.06), transparent 28%);
+
+    pointer-events: none;
+    z-index: -4;
+}
+
+.glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    filter: blur(130px);
+
+    pointer-events: none;
+
+    z-index: -3;
+}
+
+.glow-one {
+    background: rgba(34,211,238,0.07);
+    top: -250px;
+    left: -180px;
+}
+
+.glow-two {
+    background: rgba(251,146,60,0.055);
+    right: -250px;
+    bottom: -220px;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    width: 92%;
+    max-width: 1250px;
+
+    margin: 22px auto;
+
+    padding: 15px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(7,17,31,0.72);
+
+    border: 1px solid rgba(148,163,184,0.13);
+
+    backdrop-filter: blur(18px);
+
+    position: relative;
+
+    z-index: 10;
+
+    animation: navDrop 0.8s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.logo-mark {
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(34,211,238,0.3);
+
+    color: #22d3ee;
+
+    background: rgba(34,211,238,0.05);
+
+    box-shadow: 0 0 18px rgba(34,211,238,0.08);
+}
+
+.logo span {
+    color: #22d3ee;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    margin-right: 12px;
+}
+
+.nav-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow: 0 0 10px #22c55e;
+}
+
+.nav-link {
+    color: #94a3b8;
+
+    text-decoration: none;
+
+    padding: 9px 15px;
+
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: #22d3ee;
+}
+
+.nav-register {
+    color: #07111f;
+
+    background: #fb923c;
+
+    padding: 10px 17px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.nav-register:hover {
+    background: #ffad70;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 0 25px rgba(251,146,60,0.25);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    max-width: 1250px;
+
+    min-height: 650px;
+
+    margin: auto;
+
+    padding: 70px 35px 45px;
+
+    display: grid;
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+    align-items: center;
+
+    gap: 40px;
+}
+
+.hero-content {
+    animation: slideLeft 0.9s ease;
+}
+
+.eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 7px 12px;
+
+    border: 1px solid rgba(34,211,238,0.18);
+
+    background: rgba(34,211,238,0.035);
+
+    color: #22d3ee;
+
+    font-size: 10px;
+
+    letter-spacing: 2.5px;
+
+    margin-bottom: 25px;
+}
+
+.eyebrow-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow: 0 0 10px #22c55e;
+
+    animation: pulse 2s infinite;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 6vw, 76px);
+
+    line-height: 0.98;
+
+    letter-spacing: -4px;
+
+    max-width: 760px;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 .orange {
+    color: #fb923c;
+}
+
+.hero h1 .cyan {
+    color: #22d3ee;
+}
+
+.hero-subtitle {
+    max-width: 610px;
+
+    color: #8b9aaf;
+
+    font-size: 17px;
+
+    line-height: 1.75;
+
+    margin-bottom: 32px;
+}
+
+.hero-subtitle strong {
+    color: #cbd5e1;
+}
+
+.hero-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 38px;
+}
+
+.primary-btn {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px 23px;
+
+    background: #fb923c;
+
+    color: #07111f;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+}
+
+.primary-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background: rgba(255,255,255,0.18);
+
+    transform: skewX(-20deg);
+
+    transition: 0.5s;
+}
+
+.primary-btn:hover::before {
+    left: 130%;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 12px 35px rgba(251,146,60,0.2);
+}
+
+.arrow {
+    font-size: 17px;
+}
+
+.secondary-btn {
+    color: #64748b;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+.secondary-btn:hover {
+    color: #22d3ee;
+}
+
+/* =========================
+   HERO TRUST
+========================= */
+
+.trust-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    color: #475569;
+
+    font-size: 11px;
+}
+
+.trust-line {
+    width: 38px;
+    height: 1px;
+
+    background: #334155;
+}
+
+.trust-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.trust-item span {
+    color: #22d3ee;
+}
+
+/* =========================
+   AI VISUAL
+========================= */
+
+.ai-visual {
+    height: 470px;
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    animation: slideRight 1s ease;
+}
+
+.ai-halo {
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    border-radius: 50%;
+
+    background: rgba(34,211,238,0.025);
+
+    box-shadow:
+        0 0 90px rgba(34,211,238,0.07),
+        inset 0 0 70px rgba(34,211,238,0.035);
+}
+
+.ring {
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(34,211,238,0.22);
+}
+
+.ring-one {
+    width: 360px;
+    height: 360px;
+
+    animation: rotate 18s linear infinite;
+}
+
+.ring-two {
+    width: 285px;
+    height: 285px;
+
+    border-color: rgba(251,146,60,0.22);
+
+    animation: rotateReverse 12s linear infinite;
+}
+
+.ring-three {
+    width: 210px;
+    height: 210px;
+
+    border-color: rgba(34,211,238,0.16);
+
+    border-style: dashed;
+
+    animation: rotate 9s linear infinite;
+}
+
+.ring-one::before,
+.ring-two::before,
+.ring-three::before {
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+}
+
+.ring-one::before {
+    background: #22d3ee;
+
+    top: 35px;
+    left: 65px;
+
+    box-shadow: 0 0 18px #22d3ee;
+}
+
+.ring-two::before {
+    background: #fb923c;
+
+    bottom: 25px;
+    right: 45px;
+
+    box-shadow: 0 0 18px #fb923c;
+}
+
+.ring-three::before {
+    background: #22d3ee;
+
+    top: 18px;
+    right: 35px;
+
+    box-shadow: 0 0 15px #22d3ee;
+}
+
+.ai-core {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    background:
+        radial-gradient(circle at 40% 35%, #122943, #081525 65%);
+
+    border: 1px solid rgba(34,211,238,0.45);
+
+    box-shadow:
+        0 0 45px rgba(34,211,238,0.12),
+        inset 0 0 35px rgba(34,211,238,0.09);
+
+    animation: coreFloat 4s ease-in-out infinite;
+
+    z-index: 2;
+}
+
+.core-symbol {
+    font-size: 55px;
+
+    filter: drop-shadow(0 0 14px rgba(34,211,238,0.35));
+}
+
+.core-scan {
+    position: absolute;
+
+    width: 180px;
+    height: 2px;
+
+    background: rgba(34,211,238,0.45);
+
+    box-shadow: 0 0 14px rgba(34,211,238,0.5);
+
+    animation: scan 3s ease-in-out infinite;
+}
+
+/* =========================
+   FLOATING DATA PANELS
+========================= */
+
+.data-panel {
+    position: absolute;
+
+    padding: 12px 15px;
+
+    background: rgba(7,17,31,0.88);
+
+    border: 1px solid rgba(148,163,184,0.14);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+
+    z-index: 4;
+}
+
+.panel-one {
+    top: 65px;
+    left: 8px;
+
+    animation: floatPanel 4s ease-in-out infinite;
+}
+
+.panel-two {
+    right: 0;
+    top: 160px;
+
+    animation: floatPanel 4s ease-in-out 1s infinite;
+}
+
+.panel-three {
+    bottom: 55px;
+    left: 40px;
+
+    animation: floatPanel 4s ease-in-out 2s infinite;
+}
+
+.panel-label {
+    color: #64748b;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 6px;
+}
+
+.panel-value {
+    color: #22d3ee;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.panel-two .panel-value {
+    color: #fb923c;
+}
+
+.panel-bar {
+    width: 85px;
+    height: 3px;
+
+    background: #17283d;
+
+    margin-top: 7px;
+
+    overflow: hidden;
+}
+
+.panel-bar span {
+    display: block;
+
+    width: 78%;
+    height: 100%;
+
+    background: #22d3ee;
+
+    animation: barMove 2.5s ease-in-out infinite;
+}
+
+.panel-two .panel-bar span {
+    background: #fb923c;
+
+    width: 64%;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats-wrapper {
+    max-width: 1100px;
+
+    margin: 5px auto 90px;
+
+    padding: 0 25px;
+
+    animation: fadeUp 1s ease;
+}
+
+.stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    border-top: 1px solid rgba(148,163,184,0.12);
+
+    border-bottom: 1px solid rgba(148,163,184,0.12);
+}
+
+.stat {
+    text-align: center;
+
+    padding: 27px 15px;
+
+    border-right: 1px solid rgba(148,163,184,0.12);
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #22d3ee;
+
+    margin-bottom: 7px;
+}
+
+.stat:nth-child(2) .stat-number {
+    color: #fb923c;
+}
+
+.stat-label {
+    color: #64748b;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 0 25px 100px;
+}
+
+.section-heading {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.section-label {
+    color: #22d3ee;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.section-heading h2 {
+    font-size: 36px;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 12px;
+}
+
+.section-heading p {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+/* =========================
+   FEATURE CARDS
+========================= */
+
+.features {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.feature {
+    min-height: 245px;
+
+    padding: 30px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: rgba(7,17,31,0.7);
+
+    border: 1px solid rgba(148,163,184,0.13);
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.feature::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    right: -45px;
+    bottom: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(34,211,238,0.05);
+
+    transition: 0.4s;
+}
+
+.feature:hover {
+    transform: translateY(-8px);
+
+    border-color: rgba(34,211,238,0.35);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.25),
+        0 0 30px rgba(34,211,238,0.04);
+}
+
+.feature:hover::after {
+    transform: scale(2);
+}
+
+.feature:nth-child(2):hover {
+    border-color: rgba(251,146,60,0.35);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(34,211,238,0.2);
+
+    color: #22d3ee;
+
+    font-size: 22px;
+
+    margin-bottom: 25px;
+
+    background: rgba(34,211,238,0.025);
+}
+
+.feature:nth-child(2) .feature-icon {
+    color: #fb923c;
+
+    border-color: rgba(251,146,60,0.2);
+
+    background: rgba(251,146,60,0.025);
+}
+
+.feature h3 {
+    font-size: 17px;
+
+    letter-spacing: 0.5px;
+
+    margin-bottom: 12px;
+}
+
+.feature p {
+    color: #718198;
+
+    font-size: 13px;
+
+    line-height: 1.75;
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.workflow {
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 0 25px 100px;
+}
+
+.workflow-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 0;
+
+    position: relative;
+}
+
+.workflow-line {
+    position: absolute;
+
+    top: 29px;
+    left: 17%;
+    right: 17%;
+
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(34,211,238,0.3),
+        rgba(251,146,60,0.3),
+        transparent
+    );
+}
+
+.step {
+    text-align: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.step-number {
+    width: 58px;
+    height: 58px;
+
+    margin: auto auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #081525;
+
+    border: 1px solid rgba(34,211,238,0.28);
+
+    color: #22d3ee;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    box-shadow: 0 0 20px rgba(34,211,238,0.05);
+}
+
+.step:nth-child(3) .step-number {
+    color: #fb923c;
+
+    border-color: rgba(251,146,60,0.28);
+}
+
+.step h3 {
+    font-size: 16px;
+
+    margin-bottom: 9px;
+}
+
+.step p {
+    max-width: 230px;
+
+    margin: auto;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta {
+    max-width: 1100px;
+
+    margin: 0 auto 80px;
+
+    padding: 55px 35px;
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(34,211,238,0.16);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(34,211,238,0.045),
+            rgba(7,17,31,0.85),
+            rgba(251,146,60,0.035)
+        );
+}
+
+.cta::before {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(34,211,238,0.06);
+
+    filter: blur(70px);
+
+    left: -100px;
+    top: -130px;
+}
+
+.cta::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    background: rgba(251,146,60,0.045);
+
+    filter: blur(65px);
+
+    right: -100px;
+    bottom: -120px;
+}
+
+.cta-content {
+    position: relative;
+
+    z-index: 2;
+}
+
+.cta-label {
+    color: #22d3ee;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 14px;
+}
+
+.cta h2 {
+    font-size: 35px;
+
+    margin-bottom: 12px;
+}
+
+.cta p {
+    color: #718198;
+
+    font-size: 14px;
+
+    margin-bottom: 27px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid rgba(148,163,184,0.09);
+
+    padding: 28px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    max-width: 1150px;
+
+    margin: auto;
+
+    color: #475569;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.footer-brand {
+    color: #64748b;
+}
+
+.footer-brand span {
+    color: #22d3ee;
+}
+
+.footer-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.footer-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow: 0 0 8px #22c55e;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes navDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateReverse {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes pulse {
+    0%,100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.45;
+        transform: scale(0.7);
+    }
+}
+
+@keyframes coreFloat {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes scan {
+    0%,100% {
+        transform: translateY(-45px);
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0.8;
+    }
+
+    70% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(45px);
+        opacity: 0;
+    }
+}
+
+@keyframes floatPanel {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes barMove {
+    0%,100% {
+        opacity: 0.7;
+        transform: translateX(-8px);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(5px);
+    }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:900px) {
+
+    .nav-status {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+
+        padding-top: 50px;
+    }
+
+    .hero-content {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .trust-row {
+        justify-content: center;
+    }
+
+    .ai-visual {
+        margin-top: -20px;
+
+        transform: scale(0.85);
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .feature {
+        min-height: 200px;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    nav {
+        width: 94%;
+
+        padding: 12px 13px;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .logo-mark {
+        width: 31px;
+        height: 31px;
+    }
+
+    .nav-link {
+        padding: 8px;
+
+        font-size: 11px;
+    }
+
+    .nav-register {
+        padding: 9px 11px;
+
+        font-size: 10px;
+    }
+
+    .hero {
+        padding: 45px 20px 25px;
+
+        min-height: auto;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+
+        letter-spacing: -2.5px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+
+        gap: 16px;
+    }
+
+    .primary-btn {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .ai-visual {
+        width: 100%;
+
+        height: 350px;
+
+        transform: scale(0.7);
+
+        margin-top: -35px;
+    }
+
+    .data-panel {
+        display: none;
+    }
+
+    .stats-wrapper {
+        padding: 0 20px;
+
+        margin-bottom: 70px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        border-right: none;
+
+        border-bottom: 1px solid rgba(148,163,184,0.12);
+    }
+
+    .stat:last-child {
+        border-bottom: none;
+    }
+
+    .section,
+    .workflow {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .section-heading h2 {
+        font-size: 29px;
+    }
+
+    .workflow-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+    .workflow-line {
+        display: none;
+    }
+
+    .cta {
+        width: calc(100% - 40px);
+
+        padding: 45px 20px;
+
+        margin-bottom: 60px;
+    }
+
+    .cta h2 {
+        font-size: 29px;
+    }
+
+    footer {
+        margin: 0 20px;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="glow glow-one"></div>
+<div class="glow glow-two"></div>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            ✦
+        </div>
+
+        Viva<span>Mate</span>
+
+    </div>
+
+    <div class="nav-right">
+
+        <div class="nav-status">
+            <span class="nav-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+        <a href="{{ url_for('login') }}" class="nav-link">
+            Login
+        </a>
+
+        <a href="{{ url_for('register') }}" class="nav-register">
+            GET STARTED
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            AI-POWERED VIVA PRACTICE
+        </div>
+
+        <h1>
+            Practice
+            <span class="orange">smarter.</span>
+            <br>
+            Answer with
+            <span class="cyan">confidence.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            VivaMate is your personal AI viva examiner.
+            Practice questions based on your <strong>subject,
+            topic and difficulty</strong>, receive instant
+            evaluation, and learn how to improve every answer.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="{{ url_for('register') }}" class="primary-btn">
+                START PRACTICING
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="{{ url_for('login') }}" class="secondary-btn">
+                Already have an account?
+            </a>
+
+        </div>
+
+        <div class="trust-row">
+
+            <div class="trust-item">
+                <span>✓</span>
+                Instant Feedback
+            </div>
+
+            <div class="trust-line"></div>
+
+            <div class="trust-item">
+                <span>✓</span>
+                Performance Tracking
+            </div>
+
+            <div class="trust-line"></div>
+
+            <div class="trust-item">
+                <span>✓</span>
+                Personalized Practice
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         AI VISUAL
+    ========================= -->
+
+    <div class="ai-visual">
+
+        <div class="ai-halo"></div>
+
+        <div class="ring ring-one"></div>
+
+        <div class="ring ring-two"></div>
+
+        <div class="ring ring-three"></div>
+
+
+        <div class="ai-core">
+
+            <div class="core-scan"></div>
+
+            <div class="core-symbol">
+                🤖
+            </div>
+
+        </div>
+
+
+        <!-- DATA PANEL 1 -->
+
+        <div class="data-panel panel-one">
+
+            <div class="panel-label">
+                QUESTION ENGINE
+            </div>
+
+            <div class="panel-value">
+                ACTIVE
+            </div>
+
+            <div class="panel-bar">
+                <span></span>
+            </div>
+
+        </div>
+
+
+        <!-- DATA PANEL 2 -->
+
+        <div class="data-panel panel-two">
+
+            <div class="panel-label">
+                AI EVALUATION
+            </div>
+
+            <div class="panel-value">
+                ANALYZING
+            </div>
+
+            <div class="panel-bar">
+                <span></span>
+            </div>
+
+        </div>
+
+
+        <!-- DATA PANEL 3 -->
+
+        <div class="data-panel panel-three">
+
+            <div class="panel-label">
+                PERFORMANCE
+            </div>
+
+            <div class="panel-value">
+                TRACKED
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<div class="stats-wrapper">
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-number">
+                10/10
+            </div>
+
+            <div class="stat-label">
+                AI SCORING
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-number">
+                24/7
+            </div>
+
+            <div class="stat-label">
+                PRACTICE ACCESS
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-number">
+                AI
+            </div>
+
+            <div class="stat-label">
+                PERSONALIZED EXAMINER
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            VIVAMATE / CORE FEATURES
+        </div>
+
+        <h2>
+            Everything you need to ace your viva.
+        </h2>
+
+        <p>
+            Practice, evaluate and improve — all in one place.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ◈
+            </div>
+
+            <h3>
+                AI QUESTION GENERATION
+            </h3>
+
+            <p>
+                Generate viva questions according to your
+                subject, topic and selected difficulty.
+                Every practice session is personalized.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ◉
+            </div>
+
+            <h3>
+                SMART ANSWER EVALUATION
+            </h3>
+
+            <p>
+                Receive a score, detailed feedback,
+                ideal answer and specific suggestions
+                to improve your response.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ◎
+            </div>
+
+            <h3>
+                PERFORMANCE TRACKING
+            </h3>
+
+            <p>
+                Track your previous viva sessions,
+                monitor your scores and understand
+                your progress over time.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section class="workflow">
+
+    <div class="section-heading">
+
+        <div class="section-label">
+            SIMPLE WORKFLOW
+        </div>
+
+        <h2>
+            From nervous to confident.
+        </h2>
+
+        <p>
+            Three simple steps to prepare yourself.
+        </p>
+
+    </div>
+
+
+    <div class="workflow-grid">
+
+        <div class="workflow-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <h3>
+                Configure
+            </h3>
+
+            <p>
+                Select your subject, topic,
+                difficulty and number of questions.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <h3>
+                Practice
+            </h3>
+
+            <p>
+                Answer AI-generated viva questions
+                just like a real examination.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <h3>
+                Improve
+            </h3>
+
+            <p>
+                Get your score, feedback and
+                ideal answers after every response.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta">
+
+    <div class="cta-content">
+
+        <div class="cta-label">
+            READY WHEN YOU ARE
+        </div>
+
+        <h2>
+            Your next viva starts here.
+        </h2>
+
+        <p>
+            Stop memorizing blindly. Start practicing intelligently.
+        </p>
+
+        <a href="{{ url_for('register') }}" class="primary-btn">
+            CREATE YOUR ACCOUNT
+            <span class="arrow">→</span>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-brand">
+        © 2026 Viva<span>Mate</span> — AI Viva Practice Assistant
+    </div>
+
+    <div class="footer-status">
+        <span class="footer-dot"></span>
+        AI SYSTEM ONLINE
+    </div>
+
+</footer>
+
+</body>
+</html>

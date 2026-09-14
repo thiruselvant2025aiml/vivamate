@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VivaMate | Setup Viva</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #07111f;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background grid */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
+            background-size: 45px 45px;
+            pointer-events: none;
+        }
+
+        /* Ambient glow */
+
+        .ambient {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(34, 211, 238, 0.07);
+            filter: blur(100px);
+            top: 10%;
+            right: 5%;
+            pointer-events: none;
+        }
+
+        .ambient.orange {
+            width: 300px;
+            height: 300px;
+            background: rgba(251, 146, 60, 0.05);
+            top: 65%;
+            left: -100px;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: rgba(7,17,31,0.75);
+            backdrop-filter: blur(14px);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #22d3ee;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .back-btn:hover {
+            color: #22d3ee;
+        }
+
+        /* Main */
+
+        .main {
+            width: 86%;
+            max-width: 1250px;
+            margin: auto;
+            min-height: calc(100vh - 72px);
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 70px;
+            align-items: center;
+            padding: 60px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Left */
+
+        .left {
+            animation: slideLeft 0.8s ease;
+        }
+
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border: 1px solid rgba(34,211,238,0.22);
+            border-radius: 20px;
+            color: #67e8f9;
+            background: rgba(34,211,238,0.05);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #22d3ee;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22d3ee;
+        }
+
+        h1 {
+            font-size: clamp(40px, 5vw, 65px);
+            line-height: 1;
+            letter-spacing: -2.5px;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            color: #22d3ee;
+        }
+
+        .subtitle {
+            max-width: 570px;
+            color: #94a3b8;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        /* Form */
+
+        .form-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(10, 23, 40, 0.72);
+            padding: 25px;
+            border-radius: 18px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #1e3349;
+            background: #081625;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 0 14px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .field input::placeholder {
+            color: #526477;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 0 3px rgba(34,211,238,0.08);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .generate-btn {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 11px;
+            margin-top: 4px;
+            background: linear-gradient(90deg, #22d3ee, #0ea5e9);
+            color: #04101c;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100%;
+            background: rgba(255,255,255,0.3);
+            transform: skewX(-25deg) translateX(-150px);
+            transition: 0.5s;
+        }
+
+        .generate-btn:hover::before {
+            transform: skewX(-25deg) translateX(500px);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(34,211,238,0.25);
+        }
+
+        /* Right AI Core */
+
+        .visual {
+            min-height: 560px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 1.1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .core-container {
+            width: 390px;
+            height: 390px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: floatCore 5s ease-in-out infinite;
+        }
+
+        @keyframes floatCore {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-18px);
+            }
+        }
+
+        /* Outer rings */
+
+        .ring {
+            position: absolute;
+            border: 1px solid rgba(34,211,238,0.25);
+            border-radius: 50%;
+        }
+
+        .ring-one {
+            width: 360px;
+            height: 360px;
+            animation: rotateClockwise 16s linear infinite;
+        }
+
+        .ring-two {
+            width: 290px;
+            height: 290px;
+            border-color: rgba(251,146,60,0.3);
+            animation: rotateReverse 11s linear infinite;
+        }
+
+        .ring-three {
+            width: 220px;
+            height: 220px;
+            border-style: dashed;
+            border-color: rgba(34,211,238,0.4);
+            animation: rotateClockwise 8s linear infinite;
+        }
+
+        @keyframes rotateClockwise {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotateReverse {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Ring dots */
+
+        .ring::before,
+        .ring::after {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .ring-one::before {
+            background: #22d3ee;
+            box-shadow: 0 0 15px #22d3ee;
+            top: 25px;
+            left: 50%;
+        }
+
+        .ring-one::after {
+            background: #fb923c;
+            box-shadow: 0 0 15px #fb923c;
+            bottom: 25px;
+            left: 50%;
+        }
+
+        .ring-two::before {
+            background: #22d3ee;
+            box-shadow: 0 0 15px #22d3ee;
+            left: 18px;
+            top: 50%;
+        }
+
+        .ring-two::after {
+            background: #fb923c;
+            box-shadow: 0 0 15px #fb923c;
+            right: 18px;
+            top: 50%;
+        }
+
+        /* AI sphere */
+
+        .core {
+            width: 145px;
+            height: 145px;
+            border-radius: 50%;
+            position: relative;
+            background:
+                radial-gradient(circle at 35% 30%, #67e8f9 0%, #0891b2 25%, #075985 48%, #041522 72%);
+            box-shadow:
+                0 0 35px rgba(34,211,238,0.55),
+                0 0 90px rgba(34,211,238,0.25),
+                inset 0 0 30px rgba(255,255,255,0.12);
+            animation: pulseCore 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseCore {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow:
+                    0 0 35px rgba(34,211,238,0.55),
+                    0 0 90px rgba(34,211,238,0.25),
+                    inset 0 0 30px rgba(255,255,255,0.12);
+            }
+
+            50% {
+                transform: scale(1.07);
+                box-shadow:
+                    0 0 50px rgba(34,211,238,0.8),
+                    0 0 120px rgba(34,211,238,0.3),
+                    inset 0 0 35px rgba(255,255,255,0.18);
+            }
+        }
+
+        .core::before {
+            content: "";
+            position: absolute;
+            inset: 15px;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 50%;
+        }
+
+        .core::after {
+            content: "AI";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px #22d3ee;
+        }
+
+        /* Floating particles */
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee;
+        }
+
+        .p1 {
+            top: 40px;
+            left: 65px;
+            animation: particleOne 4s ease-in-out infinite;
+        }
+
+        .p2 {
+            top: 100px;
+            right: 30px;
+            background: #fb923c;
+            box-shadow: 0 0 12px #fb923c;
+            animation: particleTwo 5s ease-in-out infinite;
+        }
+
+        .p3 {
+            bottom: 70px;
+            left: 45px;
+            animation: particleThree 4.5s ease-in-out infinite;
+        }
+
+        .p4 {
+            bottom: 35px;
+            right: 80px;
+            background: #fb923c;
+            box-shadow: 0 0 12px #fb923c;
+            animation: particleFour 5.5s ease-in-out infinite;
+        }
+
+        @keyframes particleOne {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(25px,-25px); }
+        }
+
+        @keyframes particleTwo {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(-20px,30px); }
+        }
+
+        @keyframes particleThree {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(30px,15px); }
+        }
+
+        @keyframes particleFour {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(-30px,-20px); }
+        }
+
+        /* AI information card */
+
+        .ai-card {
+            position: absolute;
+            bottom: 25px;
+            right: 0;
+            width: 230px;
+            padding: 17px;
+            border: 1px solid rgba(34,211,238,0.18);
+            border-radius: 13px;
+            background: rgba(8,22,37,0.82);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .ai-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 9px;
+        }
+
+        .ai-title {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+        }
+
+        .online {
+            color: #67e8f9;
+            font-size: 10px;
+        }
+
+        .ai-line {
+            height: 4px;
+            background: #12283b;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .ai-line span {
+            display: block;
+            width: 87%;
+            height: 100%;
+            background: linear-gradient(90deg, #22d3ee, #fb923c);
+            border-radius: 5px;
+            animation: loading 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes loading {
+            from {
+                width: 72%;
+            }
+
+            to {
+                width: 94%;
+            }
+        }
+
+        .ai-card small {
+            display: block;
+            color: #64748b;
+            margin-top: 8px;
+            font-size: 10px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+            .main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 45px 0;
+            }
+
+            .visual {
+                min-height: 450px;
+            }
+
+            .core-container {
+                transform: scale(0.82);
+            }
+
+            .ai-card {
+                right: 5%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-status {
+                display: none;
+            }
+
+            .main {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 42px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .visual {
+                min-height: 390px;
+            }
+
+            .core-container {
+                transform: scale(0.65);
+            }
+
+            .ai-card {
+                right: 0;
+                bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ambient"></div>
+    <div class="ambient orange"></div>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Viva<span>Mate</span>
+        </div>
+
+        <div class="nav-right">
+
+            <div class="nav-status">
+                <div class="status-dot"></div>
+                AI SYSTEM ONLINE
+            </div>
+
+            <a href="{{ url_for('dashboard') }}" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <!-- LEFT SIDE -->
+
+        <section class="left">
+
+            <div class="eyebrow">
+                AI Viva Configuration
+            </div>
+
+            <h1>
+                Build Your<br>
+                <span>Viva.</span>
+            </h1>
+
+            <p class="subtitle">
+                Configure your subject, topic and difficulty.
+                VivaMate's AI examiner will generate a personalized
+                viva session based on your selections.
+            </p>
+
+
+            <form method="POST" class="form-card">
+
+                <div class="field">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        placeholder="e.g. Machine Learning"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="topic">
+                        Topic
+                    </label>
+
+                    <input
+                        type="text"
+                        id="topic"
+                        name="topic"
+                        placeholder="e.g. Linear Regression"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label for="difficulty">
+                            Difficulty
+                        </label>
+
+                        <select
+                            id="difficulty"
+                            name="difficulty"
+                            required
+                        >
+
+                            <option value="Easy">
+                                Easy
+                            </option>
+
+                            <option value="Medium" selected>
+                                Medium
+                            </option>
+
+                            <option value="Hard">
+                                Hard
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="number">
+                            Number of Questions
+                        </label>
+
+                        <input
+                            type="number"
+                            id="number"
+                            name="number"
+                            min="1"
+                            max="20"
+                            value="5"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="generate-btn"
+                >
+                    ⚡ GENERATE MY VIVA
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+
+        <section class="visual">
+
+            <div class="core-container">
+
+                <!-- rotating rings -->
+
+                <div class="ring ring-one"></div>
+
+                <div class="ring ring-two"></div>
+
+                <div class="ring ring-three"></div>
+
+
+                <!-- particles -->
+
+                <div class="particle p1"></div>
+                <div class="particle p2"></div>
+                <div class="particle p3"></div>
+                <div class="particle p4"></div>
+
+
+                <!-- AI Core -->
+
+                <div class="core"></div>
+
+            </div>
+
+
+            <!-- AI status card -->
+
+            <div class="ai-card">
+
+                <div class="ai-card-top">
+
+                    <div class="ai-title">
+                        VIVAMATE ENGINE
+                    </div>
+
+                    <div class="online">
+                        ● READY
+                    </div>
+
+                </div>
+
+                <div class="ai-line">
+                    <span></span>
+                </div>
+
+                <small>
+                    Question generation system initialized
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

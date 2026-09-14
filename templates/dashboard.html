@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VivaMate — Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            color: #f8fafc;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(34, 211, 238, 0.08),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(251, 146, 60, 0.035),
+                    transparent 25%
+                ),
+                #050d19;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            background-image:
+                linear-gradient(
+                    rgba(34, 211, 238, 0.04) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(34, 211, 238, 0.04) 1px,
+                    transparent 1px
+                );
+            background-size: 36px 36px;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            right: -210px;
+            bottom: -210px;
+            border-radius: 50%;
+            border: 1px solid rgba(34, 211, 238, 0.08);
+            box-shadow:
+                0 0 0 30px rgba(34, 211, 238, 0.015),
+                0 0 0 60px rgba(34, 211, 238, 0.01),
+                0 0 0 90px rgba(34, 211, 238, 0.008);
+            pointer-events: none;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 66px;
+            padding: 0 5.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 13, 25, 0.88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 850;
+            color: #22d3ee;
+            letter-spacing: -0.7px;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(34, 211, 238, 0.07);
+            border: 1px solid rgba(34, 211, 238, 0.16);
+            font-size: 17px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #a9b8c8;
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 0.7px;
+            padding: 9px 15px;
+            border-radius: 8px;
+            transition: 0.25s;
+        }
+
+        .nav-link:hover {
+            color: #22d3ee;
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .logout {
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.35);
+        }
+
+        .logout:hover {
+            color: #fb923c;
+            background: rgba(251, 146, 60, 0.07);
+            border-color: rgba(251, 146, 60, 0.65);
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 88%;
+            max-width: 1190px;
+            margin: auto;
+            padding: 45px 0 75px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* TOP AREA */
+
+        .top-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+            animation: fadeUp 0.55s ease both;
+        }
+
+        .welcome-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .welcome-orb {
+            width: 76px;
+            height: 76px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(34, 211, 238, 0.18),
+                    rgba(34, 211, 238, 0.025)
+                );
+            border: 1px solid rgba(34, 211, 238, 0.4);
+            box-shadow:
+                0 0 35px rgba(34, 211, 238, 0.12);
+            animation: orbPulse 3s ease-in-out infinite;
+        }
+
+        .welcome-text h1 {
+            margin: 0;
+            font-size: clamp(30px, 4vw, 42px);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+        }
+
+        .welcome-text h1 span {
+            color: #22d3ee;
+        }
+
+        .welcome-text p {
+            margin: 9px 0 0;
+            color: #7890a8;
+            font-size: 14px;
+        }
+
+        /* QUOTE */
+
+        .quote-card {
+            width: 350px;
+            padding: 17px 19px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-radius: 15px;
+            background: rgba(8, 24, 41, 0.82);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+        }
+
+        .quote-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34, 211, 238, 0.07);
+            border: 1px solid rgba(34, 211, 238, 0.28);
+            font-size: 22px;
+        }
+
+        .quote-text {
+            font-size: 12px;
+            line-height: 1.55;
+            color: #a9bbcc;
+        }
+
+        .quote-text strong {
+            display: block;
+            margin-top: 5px;
+            color: #647b92;
+            font-size: 10px;
+            letter-spacing: 0.6px;
+        }
+
+        /* HERO */
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-bottom: 20px;
+            animation: fadeUp 0.55s 0.08s ease both;
+        }
+
+        /* START CARD */
+
+        .start-card {
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+            padding: 35px;
+            border-radius: 19px;
+            background:
+                linear-gradient(
+                    125deg,
+                    rgba(8, 30, 49, 0.98),
+                    rgba(8, 21, 37, 0.94)
+                );
+            border: 1px solid rgba(34, 211, 238, 0.22);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .start-card:hover {
+            border-color: rgba(34, 211, 238, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 25px 65px rgba(34, 211, 238, 0.08);
+        }
+
+        .start-card::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -70px;
+            top: -100px;
+            border-radius: 50%;
+            border: 1px solid rgba(34, 211, 238, 0.08);
+            box-shadow:
+                0 0 0 25px rgba(34, 211, 238, 0.01),
+                0 0 0 50px rgba(34, 211, 238, 0.01);
+        }
+
+        .start-card::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            right: -100px;
+            bottom: -170px;
+            border-radius: 50%;
+            background: rgba(34, 211, 238, 0.08);
+            filter: blur(50px);
+        }
+
+        .target-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            font-size: 23px;
+            margin-bottom: 19px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .start-card h2 {
+            margin: 0 0 11px;
+            font-size: 25px;
+            letter-spacing: -0.6px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .start-card p {
+            margin: 0;
+            max-width: 610px;
+            color: #8da4ba;
+            font-size: 14px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        .start-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 23px;
+            padding: 13px 21px;
+            text-decoration: none;
+            border-radius: 9px;
+            background: #22d3ee;
+            color: #04131e;
+            font-size: 12px;
+            font-weight: 850;
+            transition: 0.25s;
+            box-shadow: 0 8px 25px rgba(34, 211, 238, 0.16);
+            position: relative;
+            z-index: 2;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(34, 211, 238, 0.25);
+        }
+
+        /* AI EXAMINER */
+
+        .examiner-card {
+            min-height: 250px;
+            padding: 25px;
+            border-radius: 19px;
+            background: rgba(8, 24, 40, 0.9);
+            border: 1px solid rgba(34, 211, 238, 0.16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .examiner-card:hover {
+            border-color: rgba(34, 211, 238, 0.35);
+            transform: translateY(-3px);
+        }
+
+        .ai-core {
+            width: 92px;
+            height: 92px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 17px;
+        }
+
+        .core-sphere {
+            width: 57px;
+            height: 57px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    rgba(255, 255, 255, 0.2),
+                    rgba(34, 211, 238, 0.12) 35%,
+                    rgba(34, 211, 238, 0.025) 75%
+                );
+            border: 1px solid rgba(34, 211, 238, 0.75);
+            box-shadow:
+                0 0 25px rgba(34, 211, 238, 0.2),
+                inset 0 0 20px rgba(34, 211, 238, 0.08);
+            animation: corePulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        .orbit {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(34, 211, 238, 0.22);
+        }
+
+        .orbit.one {
+            width: 78px;
+            height: 78px;
+            animation: rotate 5s linear infinite;
+        }
+
+        .orbit.two {
+            width: 91px;
+            height: 50px;
+            transform: rotate(55deg);
+            animation: rotateReverse 7s linear infinite;
+        }
+
+        .orbit.three {
+            width: 68px;
+            height: 92px;
+            transform: rotate(-55deg);
+            animation: rotate 6s linear infinite;
+        }
+
+        .examiner-card h3 {
+            margin: 0;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+        }
+
+        .system-ready {
+            margin-top: 8px;
+            color: #22d3ee;
+            font-size: 10px;
+            letter-spacing: 1px;
+            font-weight: 750;
+        }
+
+        .system-ready span {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 10px #22d3ee;
+            margin-right: 5px;
+            animation: statusBlink 1.5s ease-in-out infinite;
+        }
+
+        .examiner-subtext {
+            margin-top: 10px;
+            color: #587086;
+            font-size: 10px;
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 35px;
+            animation: fadeUp 0.55s 0.14s ease both;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 118px;
+            padding: 22px 25px;
+            border-radius: 15px;
+            background: rgba(8, 24, 40, 0.86);
+            border: 1px solid rgba(255, 255, 255, 0.065);
+            transition: 0.25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(34, 211, 238, 0.22);
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right: -45px;
+            bottom: -55px;
+            border-radius: 50%;
+            background: rgba(34, 211, 238, 0.025);
+            filter: blur(20px);
+        }
+
+        .stat-label {
+            color: #6f879e;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            margin-bottom: 9px;
+        }
+
+        .stat-value {
+            color: #22d3ee;
+            font-size: 27px;
+            font-weight: 850;
+            line-height: 1.1;
+            letter-spacing: -0.8px;
+        }
+
+        .stat-description {
+            margin-top: 7px;
+            color: #60778e;
+            font-size: 10px;
+        }
+
+        .stat-icon {
+            position: absolute;
+            right: 20px;
+            top: 25px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: #22d3ee;
+            background: rgba(34, 211, 238, 0.055);
+            border: 1px solid rgba(34, 211, 238, 0.12);
+            font-size: 19px;
+        }
+
+        .performance-value {
+            font-size: 19px;
+            max-width: 90%;
+            margin-top: 3px;
+        }
+
+        /* SECTION TITLE */
+
+        .section-title {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title p {
+            margin: 5px 0 0;
+            color: #657d94;
+            font-size: 11px;
+        }
+
+        .section-tag {
+            padding: 7px 12px;
+            border-radius: 20px;
+            color: #6f879d;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 10px;
+        }
+
+        /* GRAPH */
+
+        .chart-card {
+            position: relative;
+            height: 390px;
+            padding: 24px 25px 20px;
+            border-radius: 18px;
+            background: rgba(8, 24, 40, 0.9);
+            border: 1px solid rgba(34, 211, 238, 0.16);
+            overflow: hidden;
+            margin-bottom: 35px;
+            animation: fadeUp 0.55s 0.2s ease both;
+        }
+
+        .chart-card::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 180px;
+            left: 15%;
+            top: 10%;
+            background: rgba(34, 211, 238, 0.025);
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 10px;
+        }
+
+        .chart-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chart-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            color: #22d3ee;
+            background: rgba(34, 211, 238, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            font-size: 18px;
+        }
+
+        .chart-heading h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .chart-heading p {
+            margin: 4px 0 0;
+            color: #607990;
+            font-size: 10px;
+        }
+
+        .chart-status {
+            color: #22d3ee;
+            font-size: 10px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: rgba(34, 211, 238, 0.05);
+            border: 1px solid rgba(34, 211, 238, 0.13);
+        }
+
+        .canvas-wrapper {
+            height: 285px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .empty-progress {
+            height: 285px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 62px;
+            height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            background: rgba(34, 211, 238, 0.06);
+            border: 1px solid rgba(34, 211, 238, 0.15);
+            font-size: 27px;
+            margin-bottom: 14px;
+        }
+
+        .empty-progress h3 {
+            margin: 0 0 7px;
+            font-size: 16px;
+        }
+
+        .empty-progress p {
+            margin: 0;
+            color: #647b91;
+            font-size: 12px;
+        }
+
+        /* BOTTOM INFO */
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 5px;
+            animation: fadeUp 0.55s 0.26s ease both;
+        }
+
+        .info-card {
+            padding: 23px;
+            border-radius: 16px;
+            background: rgba(8, 24, 40, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.055);
+            transition: 0.25s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-card h3 {
+            margin: 0 0 9px;
+            font-size: 15px;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #71879d;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .tip {
+            border-left: 3px solid #22d3ee;
+        }
+
+        .goal {
+            border-left: 3px solid #fb923c;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 45px;
+            color: #354b60;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes orbPulse {
+
+            0%, 100% {
+                box-shadow:
+                    0 0 30px rgba(34, 211, 238, 0.10);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 45px rgba(34, 211, 238, 0.20);
+            }
+
+        }
+
+        @keyframes corePulse {
+
+            0%, 100% {
+                transform: scale(1);
+                box-shadow:
+                    0 0 20px rgba(34, 211, 238, 0.15),
+                    inset 0 0 20px rgba(34, 211, 238, 0.08);
+            }
+
+            50% {
+                transform: scale(1.06);
+                box-shadow:
+                    0 0 35px rgba(34, 211, 238, 0.28),
+                    inset 0 0 25px rgba(34, 211, 238, 0.12);
+            }
+
+        }
+
+        @keyframes rotate {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        @keyframes rotateReverse {
+
+            from {
+                transform: rotate(55deg);
+            }
+
+            to {
+                transform: rotate(-305deg);
+            }
+
+        }
+
+        @keyframes statusBlink {
+
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+
+            .top-area {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .quote-card {
+                width: 100%;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .container {
+                width: 94%;
+                padding-top: 32px;
+            }
+
+            .nav-link {
+                padding: 8px 9px;
+                font-size: 9px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .welcome-area {
+                gap: 13px;
+            }
+
+            .welcome-orb {
+                width: 58px;
+                height: 58px;
+                font-size: 23px;
+            }
+
+            .welcome-text h1 {
+                font-size: 28px;
+            }
+
+            .welcome-text p {
+                font-size: 12px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .start-card {
+                padding: 26px;
+                min-height: auto;
+            }
+
+            .start-card h2 {
+                font-size: 22px;
+            }
+
+            .examiner-card {
+                min-height: 220px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                min-height: 100px;
+            }
+
+            .chart-card {
+                height: 350px;
+                padding: 20px 15px;
+            }
+
+            .canvas-wrapper {
+                height: 260px;
+            }
+
+            .chart-status {
+                display: none;
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 19px;
+            }
+
+            .section-tag {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            VivaMate
+
+        </div>
+
+        <div class="nav-links">
+
+            <a
+                href="{{ url_for('history') }}"
+                class="nav-link"
+            >
+                HISTORY
+            </a>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="nav-link logout"
+            >
+                LOGOUT
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+
+        <!-- WELCOME -->
+
+        <section class="top-area">
+
+            <div class="welcome-area">
+
+                <div class="welcome-orb">
+                    🎓
+                </div>
+
+                <div class="welcome-text">
+
+                    <h1>
+                        Welcome,
+                        <span>{{ name }}</span>
+                        👋
+                    </h1>
+
+                    <p>
+                        Your AI-powered viva command center.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quote-card">
+
+                <div class="quote-icon">
+                    🤖
+                </div>
+
+                <div class="quote-text">
+
+                    "Small steps every day
+                    lead to big results!"
+
+                    <strong>
+                        — VivaMate AI
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HERO -->
+
+        <section class="hero-grid">
+
+
+            <!-- START VIVA -->
+
+            <div class="start-card">
+
+                <div class="target-icon">
+                    🎯
+                </div>
+
+                <h2>
+                    Ready for your next Viva?
+                </h2>
+
+                <p>
+
+                    Practice technical questions,
+                    improve your answers, and understand
+                    your performance with VivaMate's
+                    AI Examiner.
+
+                </p>
+
+                <a
+                    href="{{ url_for('setup') }}"
+                    class="start-button"
+                >
+
+                    START NEW VIVA
+                    →
+
+                </a>
+
+            </div>
+
+
+            <!-- AI EXAMINER -->
+
+            <div class="examiner-card">
+
+                <div class="ai-core">
+
+                    <div class="orbit one"></div>
+                    <div class="orbit two"></div>
+                    <div class="orbit three"></div>
+
+                    <div class="core-sphere">
+                        🤖
+                    </div>
+
+                </div>
+
+                <h3>
+                    AI EXAMINER
+                </h3>
+
+                <div class="system-ready">
+
+                    <span></span>
+
+                    SYSTEM READY
+
+                </div>
+
+                <div class="examiner-subtext">
+                    Question generation • Evaluation • Feedback
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+
+            <!-- VIVA SESSIONS -->
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    VIVA SESSIONS
+                </div>
+
+                <div class="stat-value">
+                    {{ total_vivas }}
+                </div>
+
+                <div class="stat-description">
+                    Completed practice sessions
+                </div>
+
+                <div class="stat-icon">
+                    📅
+                </div>
+
+            </div>
+
+
+            <!-- AVERAGE -->
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    AVERAGE SCORE
+                </div>
+
+                <div class="stat-value">
+                    {{ "%.1f"|format(average_score) }}%
+                </div>
+
+                <div class="stat-description">
+                    Overall viva performance
+                </div>
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE -->
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    PERFORMANCE
+                </div>
+
+                <div class="stat-value performance-value">
+                    {{ performance }}
+                </div>
+
+                <div class="stat-description">
+                    Keep practicing to improve
+                </div>
+
+                <div class="stat-icon">
+                    ⭐
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PERFORMANCE PROGRESS -->
+
+        <section>
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Performance Progress
+                    </h2>
+
+                    <p>
+                        Track your score across all viva sessions
+                    </p>
+
+                </div>
+
+                <div class="section-tag">
+                    LIVE PROGRESS
+                </div>
+
+            </div>
+
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div class="chart-heading">
+
+                        <div class="chart-icon">
+                            📈
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Score Trend
+                            </h3>
+
+                            <p>
+                                Your performance across viva sessions
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart-status">
+                        PERFORMANCE
+                    </div>
+
+                </div>
+
+
+                {% if progress_scores %}
+
+                    <div class="canvas-wrapper">
+
+                        <canvas
+                            id="progressChart"
+                        ></canvas>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-progress">
+
+                        <div class="empty-icon">
+                            📈
+                        </div>
+
+                        <h3>
+                            No Progress Data Yet
+                        </h3>
+
+                        <p>
+                            Complete your first viva
+                            to start tracking your performance.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM INFORMATION -->
+
+        <section class="bottom-grid">
+
+
+            <div class="info-card tip">
+
+                <h3>
+                    💡 Practice Tip
+                </h3>
+
+                <p>
+
+                    Don't memorize answers word by word.
+                    Understand the concept first, then
+                    explain it naturally using a definition,
+                    key points, and an example.
+
+                </p>
+
+            </div>
+
+
+            <div class="info-card goal">
+
+                <h3>
+                    🚀 Your Next Goal
+                </h3>
+
+                <p>
+
+                    {% if average_score < 60 %}
+
+                        Focus on your fundamentals and
+                        try to improve your next viva score
+                        step by step.
+
+                    {% elif average_score < 75 %}
+
+                        Review your weaker answers and
+                        aim to cross the 75% performance level.
+
+                    {% elif average_score < 90 %}
+
+                        You're doing well. Practice harder
+                        questions and target 90%+.
+
+                    {% else %}
+
+                        Excellent performance!
+                        Challenge yourself with harder
+                        topics and advanced questions.
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <div class="footer">
+
+            VIVAMATE • AI VIVA PRACTICE ASSISTANT
+
+        </div>
+
+    </main>
+
+
+    <!-- PERFORMANCE CHART -->
+
+    <script>
+
+        const progressScores =
+            {{ progress_scores | tojson }};
+
+
+        if (progressScores.length > 0) {
+
+            const ctx =
+                document
+                    .getElementById("progressChart");
+
+
+            new Chart(
+                ctx,
+                {
+
+                    type: "line",
+
+                    data: {
+
+                        labels:
+
+                            progressScores.map(
+                                (_, index) =>
+                                    "Viva " + (index + 1)
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label: "Score",
+
+                                data: progressScores,
+
+                                tension: 0.35,
+
+                                borderWidth: 3,
+
+                                pointRadius: 5,
+
+                                pointHoverRadius: 7
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                max: 100,
+
+                                ticks: {
+
+                                    callback:
+                                        function(value) {
+
+                                            return value + "%";
+
+                                        }
+
+                                }
+
+                            }
+
+                        },
+
+                        plugins: {
+
+                            legend: {
+
+                                display: true
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
